@@ -4,326 +4,77 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Cyprus Travel Guide</title>
-  <link rel="manifest" href="manifest.json">
+  <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#1e3a5f">
   <meta name="description" content="Discover the best places, activities and food in Cyprus">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-    }
-
+    /* 既存のスタイル（変更なし）*/
+    * { margin: 0; padding: 0; box-sizing: border-box; transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease; }
     :root {
-      --bg-body: #fef7e8;
-      --bg-card: #ffffff;
-      --text-primary: #2c3e2f;
-      --text-secondary: #5a6e4a;
-      --accent: #1e88e5;
-      --accent-dark: #0b5e8a;
-      --border: #e0d6c2;
-      --header-bg: #ffffffcc;
-      --footer-bg: #f3efe4;
-      --shadow: rgba(0, 0, 0, 0.05);
-      --btn-bg: #1e88e5;
-      --btn-text: white;
-      --sponsor-bg: #ffffffcc;
-      --sponsor-text: #5a6e4a;
-      --install-bg: #e3f2fd;
-      --install-text: #0b5e8a;
+      --bg-body: #fef7e8; --bg-card: #ffffff; --text-primary: #2c3e2f; --text-secondary: #5a6e4a;
+      --accent: #1e88e5; --accent-dark: #0b5e8a; --border: #e0d6c2; --header-bg: #ffffffcc;
+      --footer-bg: #f3efe4; --shadow: rgba(0, 0, 0, 0.05); --btn-bg: #1e88e5; --btn-text: white;
+      --sponsor-bg: #ffffffcc; --sponsor-text: #5a6e4a; --install-bg: #e3f2fd; --install-text: #0b5e8a;
     }
-
     body.dark {
-      --bg-body: #1e2a2e;
-      --bg-card: #2d3e40;
-      --text-primary: #e9f5f0;
-      --text-secondary: #cbd5c4;
-      --accent: #4aa3df;
-      --accent-dark: #2c7cb6;
-      --border: #3e5a5c;
-      --header-bg: #1e2a2ecc;
-      --footer-bg: #1e2a2e;
-      --shadow: rgba(0, 0, 0, 0.2);
-      --btn-bg: #4aa3df;
-      --btn-text: #1e2a2e;
-      --sponsor-bg: #2d3e40cc;
-      --sponsor-text: #cbd5c4;
-      --install-bg: #2c4a5e;
-      --install-text: #e9f5f0;
+      --bg-body: #1e2a2e; --bg-card: #2d3e40; --text-primary: #e9f5f0; --text-secondary: #cbd5c4;
+      --accent: #4aa3df; --accent-dark: #2c7cb6; --border: #3e5a5c; --header-bg: #1e2a2ecc;
+      --footer-bg: #1e2a2e; --shadow: rgba(0, 0, 0, 0.2); --btn-bg: #4aa3df; --btn-text: #1e2a2e;
+      --sponsor-bg: #2d3e40cc; --sponsor-text: #cbd5c4; --install-bg: #2c4a5e; --install-text: #e9f5f0;
     }
-
-    body {
-      background-color: var(--bg-body);
-      color: var(--text-primary);
-      font-family: system-ui, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
-      line-height: 1.5;
-      padding: 0;
-      margin: 0;
-    }
-
-    header {
-      background: var(--header-bg);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--border);
-      padding: 1rem 1.5rem;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .logo h1 {
-      font-size: 1.6rem;
-      letter-spacing: -0.5px;
-      background: linear-gradient(135deg, var(--accent), #f4a261);
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: transparent;
-    }
-
-    .controls {
-      display: flex;
-      gap: 0.8rem;
-    }
-
-    button {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      padding: 0.5rem 1rem;
-      border-radius: 40px;
-      font-weight: 500;
-      cursor: pointer;
-      color: var(--text-primary);
-      transition: 0.1s;
-    }
-
-    button:hover {
-      background: var(--accent);
-      color: white;
-      border-color: var(--accent);
-    }
-
-    /* インストールバナー */
+    body { background-color: var(--bg-body); color: var(--text-primary); font-family: system-ui, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif; line-height: 1.5; padding: 0; margin: 0; }
+    header { background: var(--header-bg); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 1rem 1.5rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; }
+    .logo h1 { font-size: 1.6rem; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent), #f4a261); background-clip: text; -webkit-background-clip: text; color: transparent; }
+    .controls { display: flex; gap: 0.8rem; }
+    button { background: var(--bg-card); border: 1px solid var(--border); padding: 0.5rem 1rem; border-radius: 40px; font-weight: 500; cursor: pointer; color: var(--text-primary); transition: 0.1s; }
+    button:hover { background: var(--accent); color: white; border-color: var(--accent); }
     .install-banner {
-      background: var(--install-bg);
-      color: var(--install-text);
-      padding: 0.75rem 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-      border-bottom: 1px solid var(--border);
-      font-size: 0.9rem;
+      background: var(--install-bg); color: var(--install-text); padding: 0.75rem 1.5rem;
+      display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;
+      border-bottom: 1px solid var(--border); font-size: 0.9rem;
     }
-    .install-banner.hidden {
-      display: none;
-    }
-    .install-banner p {
-      margin: 0;
-    }
-    .install-btn {
-      background: var(--accent);
-      color: white;
-      border: none;
-      padding: 0.4rem 1rem;
-      border-radius: 30px;
-      cursor: pointer;
-      font-weight: 500;
-    }
-    .close-banner {
-      background: transparent;
-      border: none;
-      font-size: 1.2rem;
-      cursor: pointer;
-      color: inherit;
-      padding: 0 0.5rem;
-    }
-
-    main {
-      max-width: 1300px;
-      margin: 2rem auto;
-      padding: 0 1.5rem;
-    }
-
-    .map-container {
-      margin: 1.5rem 0 2rem 0;
-      border-radius: 28px;
-      overflow: hidden;
-      box-shadow: 0 8px 20px var(--shadow);
-      border: 1px solid var(--border);
-      background: var(--bg-card);
-    }
-
-    .map-container iframe {
-      width: 100%;
-      height: 350px;
-      border: 0;
-      display: block;
-    }
-
-    .sponsor {
-      background: var(--sponsor-bg);
-      backdrop-filter: blur(4px);
-      border-radius: 24px;
-      padding: 1rem;
-      margin: 1.5rem 0;
-      text-align: center;
-      border: 1px solid var(--border);
-      color: var(--sponsor-text);
-    }
-
-    .sponsor a {
-      text-decoration: none;
-      display: inline-block;
-    }
-
-    .sponsor-image {
-      max-width: 100%;
-      height: auto;
-      max-height: 100px;
-      border-radius: 12px;
-      margin-bottom: 0.5rem;
-    }
-
-    .sponsor .sponsor-label {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      opacity: 0.7;
-      margin-bottom: 0.5rem;
-    }
-
-    .sponsor p {
-      margin: 0;
-      font-size: 0.9rem;
-      letter-spacing: 1px;
-    }
-
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 2rem;
-    }
-
-    .card {
-      background: var(--bg-card);
-      border-radius: 28px;
-      overflow: hidden;
-      box-shadow: 0 8px 20px var(--shadow);
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-      border: 1px solid var(--border);
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 30px var(--shadow);
-    }
-
-    .card-img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      display: block;
-    }
-
-    .card-content {
-      padding: 1.2rem;
-    }
-
-    .card-title {
-      font-size: 1.3rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-    }
-
-    .detail-container {
-      max-width: 900px;
-      margin: 2rem auto;
-      background: var(--bg-card);
-      border-radius: 32px;
-      padding: 2rem;
-      border: 1px solid var(--border);
-    }
-
-    .detail-img {
-      width: 100%;
-      max-height: 450px;
-      object-fit: cover;
-      border-radius: 24px;
-      margin-bottom: 1.5rem;
-    }
-
-    .back-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 1.5rem;
-      background: var(--accent);
-      color: white;
-      border: none;
-    }
-
-    .official-link {
-      display: inline-block;
-      margin-top: 1rem;
-      background: var(--accent-dark);
-      color: white;
-      padding: 0.6rem 1.2rem;
-      border-radius: 40px;
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    .official-link:hover {
-      opacity: 0.9;
-    }
-
-    footer {
-      background: var(--footer-bg);
-      border-top: 1px solid var(--border);
-      text-align: center;
-      padding: 2rem 1rem;
-      margin-top: 3rem;
-      font-size: 0.9rem;
-    }
-
-    footer a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
+    .install-banner.hidden { display: none; }
+    .install-banner p { margin: 0; }
+    .install-btn { background: var(--accent); color: white; border: none; padding: 0.4rem 1rem; border-radius: 30px; cursor: pointer; font-weight: 500; }
+    .close-banner { background: transparent; border: none; font-size: 1.2rem; cursor: pointer; color: inherit; padding: 0 0.5rem; }
+    main { max-width: 1300px; margin: 2rem auto; padding: 0 1.5rem; }
+    .map-container { margin: 1.5rem 0 2rem 0; border-radius: 28px; overflow: hidden; box-shadow: 0 8px 20px var(--shadow); border: 1px solid var(--border); background: var(--bg-card); }
+    .map-container iframe { width: 100%; height: 350px; border: 0; display: block; }
+    .sponsor { background: var(--sponsor-bg); backdrop-filter: blur(4px); border-radius: 24px; padding: 1rem; margin: 1.5rem 0; text-align: center; border: 1px solid var(--border); color: var(--sponsor-text); }
+    .sponsor a { text-decoration: none; display: inline-block; }
+    .sponsor-image { max-width: 100%; height: auto; max-height: 100px; border-radius: 12px; margin-bottom: 0.5rem; }
+    .sponsor .sponsor-label { font-size: 0.7rem; text-transform: uppercase; opacity: 0.7; margin-bottom: 0.5rem; }
+    .sponsor p { margin: 0; font-size: 0.9rem; letter-spacing: 1px; }
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; }
+    .card { background: var(--bg-card); border-radius: 28px; overflow: hidden; box-shadow: 0 8px 20px var(--shadow); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; border: 1px solid var(--border); }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px var(--shadow); }
+    .card-img { width: 100%; height: 200px; object-fit: cover; display: block; }
+    .card-content { padding: 1.2rem; }
+    .card-title { font-size: 1.3rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .detail-container { max-width: 900px; margin: 2rem auto; background: var(--bg-card); border-radius: 32px; padding: 2rem; border: 1px solid var(--border); }
+    .detail-img { width: 100%; max-height: 450px; object-fit: cover; border-radius: 24px; margin-bottom: 1.5rem; }
+    .back-btn { display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 1.5rem; background: var(--accent); color: white; border: none; }
+    .official-link { display: inline-block; margin-top: 1rem; background: var(--accent-dark); color: white; padding: 0.6rem 1.2rem; border-radius: 40px; text-decoration: none; font-weight: 500; }
+    .official-link:hover { opacity: 0.9; }
+    footer { background: var(--footer-bg); border-top: 1px solid var(--border); text-align: center; padding: 2rem 1rem; margin-top: 3rem; font-size: 0.9rem; }
+    footer a { color: var(--accent); text-decoration: none; }
     @media (max-width: 680px) {
-      header {
-        flex-direction: column;
-        text-align: center;
-      }
-      .card-grid {
-        gap: 1.2rem;
-      }
-      .map-container iframe {
-        height: 250px;
-      }
-      .sponsor-image {
-        max-height: 80px;
-      }
+      header { flex-direction: column; text-align: center; }
+      .card-grid { gap: 1.2rem; }
+      .map-container iframe { height: 250px; }
+      .sponsor-image { max-height: 80px; }
     }
   </style>
 </head>
 <body>
   <header>
-    <div class="logo">
-      <h1>🇨🇾 Michelle's<br>Cyprus Escape</h1>
-    </div>
+    <div class="logo"><h1>🇨🇾 Michelle's<br>Cyprus Escape</h1></div>
     <div class="controls">
       <button id="langBtn" aria-label="Switch language">🇬🇷 Ελληνικά</button>
       <button id="themeBtn" aria-label="Switch theme">🌙 Dark / ☀️ Light</button>
     </div>
   </header>
 
-  <!-- インストール案内バナー（初期非表示） -->
   <div id="installBanner" class="install-banner hidden">
     <p>📱 アプリとしてインストールすると、より快適にご利用いただけます。</p>
     <div>
@@ -332,9 +83,7 @@
     </div>
   </div>
 
-  <main id="app">
-    <!-- 動的にコンテンツが挿入される -->
-  </main>
+  <main id="app"></main>
 
   <footer>
     Contact us<br>
@@ -351,14 +100,8 @@
 
     // ---------- 多言語データ ----------
     const langData = {
-      en: {
-        back: "← Back to list",
-        official: "Official Website",
-      },
-      el: {
-        back: "← Πίσω στη λίστα",
-        official: "Επίσημη ιστοσελίδα",
-      }
+      en: { back: "← Back to list", official: "Official Website" },
+      el: { back: "← Πίσω στη λίστα", official: "Επίσημη ιστοσελίδα" }
     };
 
     // 12個のスポット
@@ -377,14 +120,8 @@
       { id: 11, title_en: "Commandaria Wine", title_el: "Κουμανδαρία", desc_en: "World’s oldest named wine, sweet dessert wine from Troodos foothills.", desc_el: "Το παλαιότερο επώνυμο κρασί στον κόσμο, γλυκό επιδόρπιο κρασί από τους πρόποδες του Τροόδους.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGQFVcF_FgWpfIxF6UeI3PnhSZEy4-u0s3hQjKQeeTZvF0L5Xw4621HAc&s=10", official: "https://worldoffinewine.com/travel/commandaria-ancient-sweet-cyprus-wine" }
     ];
 
-    let currentLang = 'en';
-    let currentTheme = 'dark';
-    let showingDetail = false;
-    let selectedId = null;
-
-    const app = document.getElementById('app');
-    const langBtn = document.getElementById('langBtn');
-    const themeBtn = document.getElementById('themeBtn');
+    let currentLang = 'en', currentTheme = 'dark', showingDetail = false, selectedId = null;
+    const app = document.getElementById('app'), langBtn = document.getElementById('langBtn'), themeBtn = document.getElementById('themeBtn');
 
     // ---------- PWAインストール関連 ----------
     let deferredPrompt = null;
@@ -392,257 +129,116 @@
     const installBtn = document.getElementById('installAppBtn');
     const closeBannerBtn = document.getElementById('closeBannerBtn');
 
-    function showInstallBanner() {
-      installBanner.classList.remove('hidden');
-    }
-    function hideInstallBanner() {
-      installBanner.classList.add('hidden');
-    }
+    function showInstallBanner() { installBanner.classList.remove('hidden'); }
+    function hideInstallBanner() { installBanner.classList.add('hidden'); }
 
-    // beforeinstallprompt イベントを検知
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
-      // バナーを表示
       showInstallBanner();
+      console.log('beforeinstallprompt fired – インストールバナーを表示します');
     });
 
-    // インストールボタンクリック
     installBtn.addEventListener('click', async () => {
       if (!deferredPrompt) return;
       deferredPrompt.prompt();
       const { outcome } = await deferredPrompt.userChoice;
-      if (outcome === 'accepted') {
-        console.log('ユーザーがインストールを承諾しました');
-      } else {
-        console.log('ユーザーがインストールを拒否しました');
-      }
+      console.log(`ユーザー選択: ${outcome}`);
       deferredPrompt = null;
       hideInstallBanner();
     });
 
-    // 閉じるボタン
-    closeBannerBtn.addEventListener('click', () => {
-      hideInstallBanner();
-      // セッション中は再度表示しない（必要ならlocalStorageに記録することも可能）
-    });
+    closeBannerBtn.addEventListener('click', () => hideInstallBanner());
+    window.addEventListener('appinstalled', () => { console.log('アプリがインストールされました'); hideInstallBanner(); });
 
-    // すでにインストールされている場合、バナーは表示しない（オプション）
-    window.addEventListener('appinstalled', () => {
-      console.log('アプリがインストールされました');
-      deferredPrompt = null;
-      hideInstallBanner();
-    });
-
-    // テーマ切り替え等の既存関数（省略せず完全に記述）
+    // 既存のテーマ・言語関数
     function setTheme(theme) {
       currentTheme = theme;
-      if (theme === 'dark') {
-        document.body.classList.add('dark');
-        localStorage.setItem('theme', 'dark');
-      } else {
-        document.body.classList.remove('dark');
-        localStorage.setItem('theme', 'light');
-      }
+      if (theme === 'dark') document.body.classList.add('dark');
+      else document.body.classList.remove('dark');
+      localStorage.setItem('theme', theme);
     }
-
-    function toggleTheme() {
-      setTheme(currentTheme === 'dark' ? 'light' : 'dark');
-    }
-
+    function toggleTheme() { setTheme(currentTheme === 'dark' ? 'light' : 'dark'); }
     function setLanguage(lang) {
       currentLang = lang;
       localStorage.setItem('language', lang);
       langBtn.innerText = lang === 'en' ? '🇬🇷 Ελληνικά' : '🇬🇧 English';
       renderPage();
     }
-
-    function toggleLanguage() {
-      setLanguage(currentLang === 'en' ? 'el' : 'en');
-    }
+    function toggleLanguage() { setLanguage(currentLang === 'en' ? 'el' : 'en'); }
 
     function createSponsorSection() {
-      const sponsorDiv = document.createElement('div');
-      sponsorDiv.className = 'sponsor';
-      const label = document.createElement('div');
-      label.className = 'sponsor-label';
-      label.textContent = '✨ Sponsored ✨';
-      sponsorDiv.appendChild(label);
-      if (SPONSOR_CONFIG.imageUrl && SPONSOR_CONFIG.imageUrl.trim() !== '') {
-        const link = document.createElement('a');
-        link.href = SPONSOR_CONFIG.linkUrl;
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-        const img = document.createElement('img');
-        img.src = SPONSOR_CONFIG.imageUrl;
-        img.alt = SPONSOR_CONFIG.altText;
-        img.className = 'sponsor-image';
-        link.appendChild(img);
-        sponsorDiv.appendChild(link);
+      const div = document.createElement('div'); div.className = 'sponsor';
+      const label = document.createElement('div'); label.className = 'sponsor-label'; label.textContent = '✨ Sponsored ✨';
+      div.appendChild(label);
+      if (SPONSOR_CONFIG.imageUrl && SPONSOR_CONFIG.imageUrl.trim()) {
+        const link = document.createElement('a'); link.href = SPONSOR_CONFIG.linkUrl; link.target = '_blank'; link.rel = 'noopener noreferrer';
+        const img = document.createElement('img'); img.src = SPONSOR_CONFIG.imageUrl; img.alt = SPONSOR_CONFIG.altText; img.className = 'sponsor-image';
+        link.appendChild(img); div.appendChild(link);
       } else {
-        const link = document.createElement('a');
-        link.href = SPONSOR_CONFIG.linkUrl;
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-        link.textContent = SPONSOR_CONFIG.linkUrl;
-        sponsorDiv.appendChild(link);
+        const link = document.createElement('a'); link.href = SPONSOR_CONFIG.linkUrl; link.target = '_blank'; link.rel = 'noopener noreferrer';
+        link.textContent = SPONSOR_CONFIG.linkUrl; div.appendChild(link);
       }
-      const textP = document.createElement('p');
-      textP.textContent = "🌊 Plan your Cyprus journey with Michelle's Cyprus Escape — your ultimate travel companion. 🏛️";
-      sponsorDiv.appendChild(textP);
-      return sponsorDiv;
+      const text = document.createElement('p'); text.textContent = "🌊 Plan your Cyprus journey with Michelle's Cyprus Escape — your ultimate travel companion. 🏛️";
+      div.appendChild(text);
+      return div;
     }
 
     function renderList() {
       const container = document.createElement('div');
-      const topSponsor = createSponsorSection();
-      container.appendChild(topSponsor);
-      const mapDiv = document.createElement('div');
-      mapDiv.className = 'map-container';
-      mapDiv.innerHTML = `
-        <iframe 
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d52335.16761346227!2d33.31697017362666!3d35.166668402847065!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14de1742d62b65f3%3A0xf23bc7d53dd928a6!2sNicosia%2C%20Cyprus!5e0!3m2!1sen!2sus!4v1712134567890!5m2!1sen!2sus"
-          allowfullscreen="" 
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade">
-        </iframe>
-      `;
-      container.appendChild(mapDiv);
+      container.appendChild(createSponsorSection());
+      const map = document.createElement('div'); map.className = 'map-container';
+      map.innerHTML = `<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d52335.16761346227!2d33.31697017362666!3d35.166668402847065!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14de1742d62b65f3%3A0xf23bc7d53dd928a6!2sNicosia%2C%20Cyprus!5e0!3m2!1sen!2sus!4v1712134567890!5m2!1sen!2sus" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>`;
+      container.appendChild(map);
       const isEn = currentLang === 'en';
-      const grid = document.createElement('div');
-      grid.className = 'card-grid';
-      places.forEach(place => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.addEventListener('click', () => showDetail(place.id));
-        const img = document.createElement('img');
-        img.src = place.image;
-        img.alt = isEn ? place.title_en : place.title_el;
-        img.className = 'card-img';
-        const contentDiv = document.createElement('div');
-        contentDiv.className = 'card-content';
-        const title = document.createElement('h3');
-        title.className = 'card-title';
-        title.innerText = isEn ? place.title_en : place.title_el;
-        contentDiv.appendChild(title);
-        card.appendChild(img);
-        card.appendChild(contentDiv);
-        grid.appendChild(card);
+      const grid = document.createElement('div'); grid.className = 'card-grid';
+      places.forEach(p => {
+        const card = document.createElement('div'); card.className = 'card'; card.addEventListener('click', () => showDetail(p.id));
+        const img = document.createElement('img'); img.src = p.image; img.alt = isEn ? p.title_en : p.title_el; img.className = 'card-img';
+        const content = document.createElement('div'); content.className = 'card-content';
+        const title = document.createElement('h3'); title.className = 'card-title'; title.innerText = isEn ? p.title_en : p.title_el;
+        content.appendChild(title); card.appendChild(img); card.appendChild(content); grid.appendChild(card);
       });
       container.appendChild(grid);
-      const bottomSponsor = createSponsorSection();
-      container.appendChild(bottomSponsor);
-      app.innerHTML = '';
-      app.appendChild(container);
+      container.appendChild(createSponsorSection());
+      app.innerHTML = ''; app.appendChild(container);
     }
 
     function renderDetail(id) {
-      const place = places.find(p => p.id === id);
-      if (!place) return;
+      const place = places.find(p => p.id === id); if (!place) return;
       const isEn = currentLang === 'en';
-      const container = document.createElement('div');
-      container.className = 'detail-container';
-      const backBtn = document.createElement('button');
-      backBtn.className = 'back-btn';
-      backBtn.innerText = langData[currentLang].back;
-      backBtn.addEventListener('click', () => history.back());
-      const img = document.createElement('img');
-      img.src = place.image;
-      img.alt = isEn ? place.title_en : place.title_el;
-      img.className = 'detail-img';
-      const title = document.createElement('h2');
-      title.innerText = isEn ? place.title_en : place.title_el;
-      const desc = document.createElement('p');
-      desc.style.margin = '1rem 0';
-      desc.innerText = isEn ? place.desc_en : place.desc_el;
-      const officialLink = document.createElement('a');
-      officialLink.href = place.official;
-      officialLink.target = '_blank';
-      officialLink.rel = 'noopener noreferrer';
-      officialLink.className = 'official-link';
-      officialLink.innerText = langData[currentLang].official;
-      container.appendChild(backBtn);
-      container.appendChild(img);
-      container.appendChild(title);
-      container.appendChild(desc);
-      container.appendChild(officialLink);
-      app.innerHTML = '';
-      app.appendChild(container);
+      const container = document.createElement('div'); container.className = 'detail-container';
+      const back = document.createElement('button'); back.className = 'back-btn'; back.innerText = langData[currentLang].back; back.addEventListener('click', () => history.back());
+      const img = document.createElement('img'); img.src = place.image; img.alt = isEn ? place.title_en : place.title_el; img.className = 'detail-img';
+      const title = document.createElement('h2'); title.innerText = isEn ? place.title_en : place.title_el;
+      const desc = document.createElement('p'); desc.style.margin = '1rem 0'; desc.innerText = isEn ? place.desc_en : place.desc_el;
+      const link = document.createElement('a'); link.href = place.official; link.target = '_blank'; link.rel = 'noopener noreferrer'; link.className = 'official-link'; link.innerText = langData[currentLang].official;
+      container.appendChild(back); container.appendChild(img); container.appendChild(title); container.appendChild(desc); container.appendChild(link);
+      app.innerHTML = ''; app.appendChild(container);
     }
 
-    function showDetail(id) {
-      selectedId = id;
-      showingDetail = true;
-      renderDetail(id);
-      const url = new URL(window.location);
-      url.searchParams.set('id', id);
-      window.history.pushState({ id, view: 'detail' }, '', url);
-    }
-
-    function showList() {
-      showingDetail = false;
-      selectedId = null;
-      renderList();
-      const url = new URL(window.location);
-      url.searchParams.delete('id');
-      window.history.pushState({ view: 'list' }, '', url);
-    }
-
-    function renderPage() {
-      if (showingDetail && selectedId !== null) {
-        renderDetail(selectedId);
-      } else {
-        renderList();
-      }
-    }
-
-    window.addEventListener('popstate', (event) => {
-      const params = new URLSearchParams(window.location.search);
-      const idParam = params.get('id');
-      if (idParam !== null && !isNaN(parseInt(idParam))) {
-        const id = parseInt(idParam);
-        selectedId = id;
-        showingDetail = true;
-        renderDetail(id);
-      } else {
-        showingDetail = false;
-        selectedId = null;
-        renderList();
-      }
-    });
+    function showDetail(id) { selectedId = id; showingDetail = true; renderDetail(id); const url = new URL(window.location); url.searchParams.set('id', id); window.history.pushState({ id, view: 'detail' }, '', url); }
+    function showList() { showingDetail = false; selectedId = null; renderList(); const url = new URL(window.location); url.searchParams.delete('id'); window.history.pushState({ view: 'list' }, '', url); }
+    function renderPage() { showingDetail && selectedId !== null ? renderDetail(selectedId) : renderList(); }
+    window.addEventListener('popstate', () => { const id = new URLSearchParams(window.location.search).get('id'); if (id && !isNaN(parseInt(id))) { selectedId = parseInt(id); showingDetail = true; renderDetail(selectedId); } else { showingDetail = false; selectedId = null; renderList(); } });
 
     function init() {
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'light') setTheme('light');
-      else setTheme('dark');
-      const savedLang = localStorage.getItem('language');
-      if (savedLang === 'el') setLanguage('el');
-      else setLanguage('en');
-      langBtn.addEventListener('click', toggleLanguage);
-      themeBtn.addEventListener('click', toggleTheme);
-      const params = new URLSearchParams(window.location.search);
-      const idParam = params.get('id');
-      if (idParam !== null && !isNaN(parseInt(idParam))) {
-        selectedId = parseInt(idParam);
-        showingDetail = true;
-        renderDetail(selectedId);
-      } else {
-        showingDetail = false;
-        renderList();
-      }
+      const savedTheme = localStorage.getItem('theme'); setTheme(savedTheme === 'light' ? 'light' : 'dark');
+      const savedLang = localStorage.getItem('language'); setLanguage(savedLang === 'el' ? 'el' : 'en');
+      langBtn.addEventListener('click', toggleLanguage); themeBtn.addEventListener('click', toggleTheme);
+      const idParam = new URLSearchParams(window.location.search).get('id');
+      if (idParam && !isNaN(parseInt(idParam))) { selectedId = parseInt(idParam); showingDetail = true; renderDetail(selectedId); }
+      else { showingDetail = false; renderList(); }
     }
-
     init();
 
-    // サービスワーカー登録
+    // サービスワーカーの登録（パスに注意）
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js')
-        .then(registration => {
-          console.log('ServiceWorker registration successful with scope: ', registration.scope);
-        })
-        .catch(error => {
-          console.log('ServiceWorker registration failed: ', error);
-        });
+        .then(reg => console.log('ServiceWorker registered:', reg))
+        .catch(err => console.error('ServiceWorker registration failed:', err));
+    } else {
+      console.warn('Service Worker not supported');
     }
   </script>
 </body>
