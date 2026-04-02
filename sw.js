@@ -1,10 +1,10 @@
 const CACHE_NAME = 'cyprus-guide-v1.0.0';
 const urlsToCache = [
   '/',
-  '/index.html',
-  '/manifest.json',
-  '/icon-192.png',
-  '/icon-512.png'
+  'index.html',
+  'manifest.json',
+  'icons/icon-192.jpg',
+  'icons/icon-512.jpg'
 ];
 
 // インストール
