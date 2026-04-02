@@ -6,22 +6,19 @@
   <title>Michelle's Cyprus Escape</title>
   
   <!-- PWA Manifest -->
-  <link rel="manifest" href="manifest.json">
+  <link rel="manifest" href="/manifest.json">
   
-  <!-- iOS 用メタタグ（ホーム画面追加をスムーズに） -->
+  <!-- iOS 用メタタグ -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Cyprus Guide">
-  <link rel="apple-touch-icon" href="icons/icon-192.jpg">
+  <link rel="apple-touch-icon" href="/icon-192.png">
   
-  <!-- テーマカラー（ダーク/ライト両対応） -->
   <meta name="theme-color" content="#1e3a5f" media="(prefers-color-scheme: dark)">
   <meta name="theme-color" content="#fef7e8" media="(prefers-color-scheme: light)">
-  
   <meta name="description" content="Discover the best places, activities and food in Cyprus">
   
   <style>
-    /* すべてのスタイルは以前と同じ（変更なし） */
     * { margin: 0; padding: 0; box-sizing: border-box; transition: background-color 0.2s ease, color 0.2s ease; }
     :root {
       --bg-body: #fef7e8; --bg-card: #ffffff; --text-primary: #2c3e2f; --text-secondary: #5a6e4a;
@@ -41,7 +38,6 @@
     .controls { display: flex; gap: 0.8rem; }
     button { background: var(--bg-card); border: 1px solid var(--border); padding: 0.5rem 1rem; border-radius: 40px; cursor: pointer; color: var(--text-primary); }
     button:hover { background: var(--accent); color: white; }
-    /* インストールバナー - 画面上部固定 */
     .install-banner {
       position: sticky; top: 0; left: 0; right: 0;
       background: var(--install-bg); color: var(--install-text);
@@ -81,11 +77,11 @@
     </div>
   </header>
 
-  <!-- インストールバナー（初期非表示） -->
+  <!-- インストールバナー（英語表記に変更） -->
   <div id="installBanner" class="install-banner hidden">
-    <span>📱 アプリとしてインストールすると便利です</span>
+    <span>📱 Install as app for better experience</span>
     <div>
-      <button id="installAppBtn" class="install-btn">インストール</button>
+      <button id="installAppBtn" class="install-btn">Install</button>
       <button id="closeBannerBtn" class="close-banner">✕</button>
     </div>
   </div>
@@ -125,7 +121,7 @@
     let currentLang = 'en', currentTheme = 'dark', showingDetail = false, selectedId = null;
     const app = document.getElementById('app'), langBtn = document.getElementById('langBtn'), themeBtn = document.getElementById('themeBtn');
 
-    // ---------- PWA インストール処理（完全に NYC 方式に準拠） ----------
+    // ---------- PWA インストール処理 ----------
     let deferredPrompt = null;
     const installBanner = document.getElementById('installBanner');
     const installBtn = document.getElementById('installAppBtn');
@@ -135,14 +131,14 @@
       e.preventDefault();
       deferredPrompt = e;
       installBanner.classList.remove('hidden');
-      console.log('beforeinstallprompt 発火 → バナー表示');
+      console.log('beforeinstallprompt fired → banner shown');
     });
 
     installBtn.addEventListener('click', async () => {
       if (!deferredPrompt) return;
       deferredPrompt.prompt();
       const { outcome } = await deferredPrompt.userChoice;
-      console.log(`インストール選択: ${outcome}`);
+      console.log(`Install choice: ${outcome}`);
       deferredPrompt = null;
       installBanner.classList.add('hidden');
     });
@@ -152,11 +148,11 @@
     });
 
     window.addEventListener('appinstalled', () => {
-      console.log('アプリがインストールされました');
+      console.log('App installed');
       installBanner.classList.add('hidden');
     });
 
-    // テーマ・言語機能（簡潔に）
+    // テーマ・言語機能
     function setTheme(theme) { currentTheme = theme; document.body.classList.toggle('dark', theme === 'dark'); localStorage.setItem('theme', theme); }
     function toggleTheme() { setTheme(currentTheme === 'dark' ? 'light' : 'dark'); }
     function setLanguage(lang) { currentLang = lang; localStorage.setItem('language', lang); langBtn.innerText = lang === 'en' ? '🇬🇷 Ελληνικά' : '🇬🇧 English'; renderPage(); }
@@ -224,15 +220,13 @@
     }
     init();
 
-    // Service Worker 登録（load イベントで確実に）
+    // Service Worker 登録
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js')
+        navigator.serviceWorker.register('/sw.js')
           .then(reg => console.log('SW registered:', reg))
           .catch(err => console.error('SW registration failed:', err));
       });
-    } else {
-      console.warn('Service Worker not supported');
     }
   </script>
 </body>
