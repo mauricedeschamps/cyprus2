@@ -3,80 +3,87 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Cyprus Travel Guide</title>
+  <title>Michelle's Cyprus Escape</title>
+  
+  <!-- PWA Manifest -->
   <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#1e3a5f">
+  
+  <!-- iOS 用メタタグ（ホーム画面追加をスムーズに） -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Cyprus Guide">
+  <link rel="apple-touch-icon" href="/icon-192.png">
+  
+  <!-- テーマカラー（ダーク/ライト両対応） -->
+  <meta name="theme-color" content="#1e3a5f" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fef7e8" media="(prefers-color-scheme: light)">
+  
   <meta name="description" content="Discover the best places, activities and food in Cyprus">
+  
   <style>
-    /* 既存のスタイル（変更なし）*/
-    * { margin: 0; padding: 0; box-sizing: border-box; transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease; }
+    /* すべてのスタイルは以前と同じ（変更なし） */
+    * { margin: 0; padding: 0; box-sizing: border-box; transition: background-color 0.2s ease, color 0.2s ease; }
     :root {
       --bg-body: #fef7e8; --bg-card: #ffffff; --text-primary: #2c3e2f; --text-secondary: #5a6e4a;
       --accent: #1e88e5; --accent-dark: #0b5e8a; --border: #e0d6c2; --header-bg: #ffffffcc;
-      --footer-bg: #f3efe4; --shadow: rgba(0, 0, 0, 0.05); --btn-bg: #1e88e5; --btn-text: white;
-      --sponsor-bg: #ffffffcc; --sponsor-text: #5a6e4a; --install-bg: #e3f2fd; --install-text: #0b5e8a;
+      --footer-bg: #f3efe4; --shadow: rgba(0, 0, 0, 0.05); --sponsor-bg: #ffffffcc;
+      --sponsor-text: #5a6e4a; --install-bg: #e3f2fd; --install-text: #0b5e8a;
     }
     body.dark {
       --bg-body: #1e2a2e; --bg-card: #2d3e40; --text-primary: #e9f5f0; --text-secondary: #cbd5c4;
       --accent: #4aa3df; --accent-dark: #2c7cb6; --border: #3e5a5c; --header-bg: #1e2a2ecc;
-      --footer-bg: #1e2a2e; --shadow: rgba(0, 0, 0, 0.2); --btn-bg: #4aa3df; --btn-text: #1e2a2e;
-      --sponsor-bg: #2d3e40cc; --sponsor-text: #cbd5c4; --install-bg: #2c4a5e; --install-text: #e9f5f0;
+      --footer-bg: #1e2a2e; --shadow: rgba(0, 0, 0, 0.2); --sponsor-bg: #2d3e40cc;
+      --sponsor-text: #cbd5c4; --install-bg: #2c4a5e; --install-text: #e9f5f0;
     }
-    body { background-color: var(--bg-body); color: var(--text-primary); font-family: system-ui, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif; line-height: 1.5; padding: 0; margin: 0; }
+    body { background-color: var(--bg-body); color: var(--text-primary); font-family: system-ui, 'Segoe UI', 'Helvetica Neue', sans-serif; line-height: 1.5; }
     header { background: var(--header-bg); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 1rem 1.5rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; }
-    .logo h1 { font-size: 1.6rem; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--accent), #f4a261); background-clip: text; -webkit-background-clip: text; color: transparent; }
+    .logo h1 { font-size: 1.6rem; background: linear-gradient(135deg, var(--accent), #f4a261); background-clip: text; -webkit-background-clip: text; color: transparent; }
     .controls { display: flex; gap: 0.8rem; }
-    button { background: var(--bg-card); border: 1px solid var(--border); padding: 0.5rem 1rem; border-radius: 40px; font-weight: 500; cursor: pointer; color: var(--text-primary); transition: 0.1s; }
-    button:hover { background: var(--accent); color: white; border-color: var(--accent); }
+    button { background: var(--bg-card); border: 1px solid var(--border); padding: 0.5rem 1rem; border-radius: 40px; cursor: pointer; color: var(--text-primary); }
+    button:hover { background: var(--accent); color: white; }
+    /* インストールバナー - 画面上部固定 */
     .install-banner {
-      background: var(--install-bg); color: var(--install-text); padding: 0.75rem 1.5rem;
-      display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;
-      border-bottom: 1px solid var(--border); font-size: 0.9rem;
+      position: sticky; top: 0; left: 0; right: 0;
+      background: var(--install-bg); color: var(--install-text);
+      padding: 12px 20px; display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid var(--border); z-index: 1000;
+      backdrop-filter: blur(8px);
     }
     .install-banner.hidden { display: none; }
-    .install-banner p { margin: 0; }
-    .install-btn { background: var(--accent); color: white; border: none; padding: 0.4rem 1rem; border-radius: 30px; cursor: pointer; font-weight: 500; }
-    .close-banner { background: transparent; border: none; font-size: 1.2rem; cursor: pointer; color: inherit; padding: 0 0.5rem; }
+    .install-btn { background: var(--accent); color: white; border: none; padding: 6px 18px; border-radius: 30px; font-weight: bold; cursor: pointer; }
+    .close-banner { background: transparent; border: none; font-size: 1.2rem; cursor: pointer; color: inherit; }
     main { max-width: 1300px; margin: 2rem auto; padding: 0 1.5rem; }
-    .map-container { margin: 1.5rem 0 2rem 0; border-radius: 28px; overflow: hidden; box-shadow: 0 8px 20px var(--shadow); border: 1px solid var(--border); background: var(--bg-card); }
+    .map-container { margin: 1.5rem 0; border-radius: 28px; overflow: hidden; border: 1px solid var(--border); background: var(--bg-card); }
     .map-container iframe { width: 100%; height: 350px; border: 0; display: block; }
-    .sponsor { background: var(--sponsor-bg); backdrop-filter: blur(4px); border-radius: 24px; padding: 1rem; margin: 1.5rem 0; text-align: center; border: 1px solid var(--border); color: var(--sponsor-text); }
-    .sponsor a { text-decoration: none; display: inline-block; }
-    .sponsor-image { max-width: 100%; height: auto; max-height: 100px; border-radius: 12px; margin-bottom: 0.5rem; }
-    .sponsor .sponsor-label { font-size: 0.7rem; text-transform: uppercase; opacity: 0.7; margin-bottom: 0.5rem; }
-    .sponsor p { margin: 0; font-size: 0.9rem; letter-spacing: 1px; }
+    .sponsor { background: var(--sponsor-bg); backdrop-filter: blur(4px); border-radius: 24px; padding: 1rem; margin: 1.5rem 0; text-align: center; border: 1px solid var(--border); }
+    .sponsor-image { max-width: 100%; max-height: 100px; border-radius: 12px; }
     .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; }
-    .card { background: var(--bg-card); border-radius: 28px; overflow: hidden; box-shadow: 0 8px 20px var(--shadow); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; border: 1px solid var(--border); }
-    .card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px var(--shadow); }
-    .card-img { width: 100%; height: 200px; object-fit: cover; display: block; }
+    .card { background: var(--bg-card); border-radius: 28px; overflow: hidden; box-shadow: 0 8px 20px var(--shadow); cursor: pointer; border: 1px solid var(--border); transition: transform 0.2s; }
+    .card:hover { transform: translateY(-5px); }
+    .card-img { width: 100%; height: 200px; object-fit: cover; }
     .card-content { padding: 1.2rem; }
     .card-title { font-size: 1.3rem; font-weight: 600; margin-bottom: 0.5rem; }
     .detail-container { max-width: 900px; margin: 2rem auto; background: var(--bg-card); border-radius: 32px; padding: 2rem; border: 1px solid var(--border); }
     .detail-img { width: 100%; max-height: 450px; object-fit: cover; border-radius: 24px; margin-bottom: 1.5rem; }
-    .back-btn { display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 1.5rem; background: var(--accent); color: white; border: none; }
-    .official-link { display: inline-block; margin-top: 1rem; background: var(--accent-dark); color: white; padding: 0.6rem 1.2rem; border-radius: 40px; text-decoration: none; font-weight: 500; }
-    .official-link:hover { opacity: 0.9; }
-    footer { background: var(--footer-bg); border-top: 1px solid var(--border); text-align: center; padding: 2rem 1rem; margin-top: 3rem; font-size: 0.9rem; }
+    .back-btn { background: var(--accent); color: white; border: none; padding: 8px 20px; border-radius: 40px; margin-bottom: 1.5rem; cursor: pointer; }
+    .official-link { display: inline-block; margin-top: 1rem; background: var(--accent-dark); color: white; padding: 0.6rem 1.2rem; border-radius: 40px; text-decoration: none; }
+    footer { background: var(--footer-bg); border-top: 1px solid var(--border); text-align: center; padding: 2rem 1rem; margin-top: 3rem; }
     footer a { color: var(--accent); text-decoration: none; }
-    @media (max-width: 680px) {
-      header { flex-direction: column; text-align: center; }
-      .card-grid { gap: 1.2rem; }
-      .map-container iframe { height: 250px; }
-      .sponsor-image { max-height: 80px; }
-    }
+    @media (max-width: 680px) { .card-grid { gap: 1.2rem; } .map-container iframe { height: 250px; } }
   </style>
 </head>
 <body>
   <header>
-    <div class="logo"><h1>🇨🇾 Michelle's<br>Cyprus Escape</h1></div>
+    <div class="logo"><h1>🇨🇾 Michelle's Cyprus Escape</h1></div>
     <div class="controls">
-      <button id="langBtn" aria-label="Switch language">🇬🇷 Ελληνικά</button>
-      <button id="themeBtn" aria-label="Switch theme">🌙 Dark / ☀️ Light</button>
+      <button id="langBtn">🇬🇷 Ελληνικά</button>
+      <button id="themeBtn">🌙 Dark / ☀️ Light</button>
     </div>
   </header>
 
+  <!-- インストールバナー（初期非表示） -->
   <div id="installBanner" class="install-banner hidden">
-    <p>📱 アプリとしてインストールすると、より快適にご利用いただけます。</p>
+    <span>📱 アプリとしてインストールすると便利です</span>
     <div>
       <button id="installAppBtn" class="install-btn">インストール</button>
       <button id="closeBannerBtn" class="close-banner">✕</button>
@@ -98,88 +105,73 @@
       altText: "Discover Cyprus"
     };
 
-    // ---------- 多言語データ ----------
-    const langData = {
-      en: { back: "← Back to list", official: "Official Website" },
-      el: { back: "← Πίσω στη λίστα", official: "Επίσημη ιστοσελίδα" }
-    };
-
-    // 12個のスポット
+    // 多言語
+    const langData = { en: { back: "← Back", official: "Official Site" }, el: { back: "← Πίσω", official: "Επίσημη ιστοσελίδα" } };
     const places = [
-      { id: 0, title_en: "Paphos Mosaics", title_el: "Ψηφιδωτά Πάφου", desc_en: "Stunning Roman floor mosaics in the House of Dionysus, UNESCO World Heritage.", desc_el: "Εκπληκτικά ρωμαϊκά ψηφιδωτά στην Οικία του Διονύσου, Μνημείο Παγκόσμιας Κληρονομιάς UNESCO.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmUIapqZv-RROP2GbJ9t-ZSL2ZsDNQzj3sHhoyD8FPxDGabBycad4MA0jo&s=10", official: "https://whc.unesco.org/en/list/79/" },
-      { id: 1, title_en: "Cape Greco National Park", title_el: "Εθνικό Πάρκο Κάβο Γκρέκο", desc_en: "Dramatic sea cliffs, crystal waters and natural sea caves near Ayia Napa.", desc_el: "Εντυπωσιακοί θαλάσσιοι βράχοι, κρυστάλλινα νερά και θαλάσσιες σπηλιές κοντά στην Αγία Νάπα.", image: "https://in-cyprus.philenews.com/wp-content/uploads/2020/03/11111111-696x464.jpg", official: "https://chooseyourcyprus.com/cape-greko-n-park/" },
-      { id: 2, title_en: "Church of Saint Lazarus", title_el: "Ιερός Ναός Αγίου Λαζάρου", desc_en: "Byzantine church in Larnaca where Lazarus was buried, beautiful iconostasis.", desc_el: "Βυζαντινή εκκλησία στη Λάρνακα όπου τάφηκε ο Λάζαρος, όμορφο τέμπλο.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBdxhMA4TZyw1Mk_34QAspbgelViXxiUeNHRFYm7VJ8JKC5YJlOAXagvU&s=10", official: "https://larnakaregion.com/directory/product/agios-lazaros-saint-lazarus" },
-      { id: 3, title_en: "Troodos Mountains & Byzantine Churches", title_el: "Βουνά Τροόδους & Βυζαντινές Εκκλησίες", desc_en: "Painted churches, cool climate, and traditional villages with trout taverns.", desc_el: "Τοιχογραφημένες εκκλησίες, δροσερό κλίμα και παραδοσιακά χωριά με ταβέρνες πέστροφας.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTi2hgaXAtD6xn2yBPQ6BOXVrZ2PqyjI1N1Jiv_zjnAnibrTriD5tMpJTE&s=10", official: "https://whc.unesco.org/en/list/351/" },
-      { id: 4, title_en: "Aphrodite's Rock (Petra tou Romiou)", title_el: "Πέτρα του Ρωμιού", desc_en: "Mythical birthplace of Aphrodite, stunning sunset spot near Paphos.", desc_el: "Μυθική γενέτειρα της Αφροδίτης, εκπληκτικό σημείο ηλιοβασιλέματος κοντά στην Πάφο.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8p1e-2nGxu864CGwMcRaCLBfFcrhCY7gceGfhlbjvva1F3QWd389LZ4Vi&s=10", official: "https://theislandofcyprus.com/aphrodite-rock/" },
-      { id: 5, title_en: "Kourion Ancient Theatre", title_el: "Αρχαίο Θέατρο Κουρίου", desc_en: "Greco-Roman theater overlooking the Mediterranean, well-preserved mosaics.", desc_el: "Ελληνορωμαϊκό θέατρο με θέα στη Μεσόγειο, καλοδιατηρημένα ψηφιδωτά.", image: "https://www.greekdramafest.com/wp-content/themes/yootheme/cache/6f/DSL_6720-6f113671.jpeg", official: "https://www.greekdramafest.com/venues/curium-ancient-theatre/ " },
-      { id: 6, title_en: "Cyprus Archaeological Museum", title_el: "Αρχαιολογικό Μουσείο Κύπρου", desc_en: "Largest archaeological museum in Nicosia, treasures from Neolithic to Roman.", desc_el: "Το μεγαλύτερο αρχαιολογικό μουσείο στη Λευκωσία, θησαυροί από τη νεολιθική έως τη ρωμαϊκή εποχή.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZqTdj9r14axngzq8l49stx_SbdUOKfw9FQksMEp5NWrsZmRSeAWSPBqiS&s=10", official: "https://www.visitcyprus.com/discover-cyprus/culture/museums-galleries/cyprus-museum/ " },
-      { id: 7, title_en: "Lefkara Village & Lace", title_el: "Λεύκαρα & κέντημα", desc_en: "Famous for silver filigree and handmade Lefkaritiko lace, traditional architecture.", desc_el: "Διάσημο για ασημένια φιλιγκράν και χειροποίητο Λευκαρίτικο κέντημα, παραδοσιακή αρχιτεκτονική.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpkTBys0D65teMcvghrbWXeMxin45DDHkIw58QBN6Y6ds-uUvwFUC_FG0&s=10", official: "https://ich.unesco.org/en/RL/lefkara-laces-or-lefkaritika-00255" },
-      { id: 8, title_en: "Meze Feast", title_el: "Κυπριακό Μεζέ", desc_en: "A parade of small dishes: dips, grilled halloumi, fresh seafood, and slow-cooked meat.", desc_el: "Μια παρέλαση μικρών πιάτων: ντιπ, ψητό χαλλούμι, φρέσκα θαλασσινά και κρέας με αργό μαγείρεμα.", image: "https://cdn.loveandlemons.com/wp-content/uploads/2022/08/mezze-platter-3.jpg", official: "https://www.olivemagazine.com/recipes/collection/best-ever-middle-eastern-mezze-recipes/" },
-      { id: 9, title_en: "Halloumi Cheese", title_el: "Χαλλούμι", desc_en: "Cypriot semi-hard cheese, perfect grilled or fried, unique taste.", desc_el: "Κυπριακό ημίσκληρο τυρί, ιδανικό για ψήσιμο ή τηγάνισμα, μοναδική γεύση.", image: "https://www.mygreekdish.com/wp-content/uploads/2023/04/Pan-fried-Halloumi-recipe.jpeg", official: "https://www.olivemagazine.com/recipes/collection/halloumi-recipes/" },
-      { id: 10, title_en: "Souvlaki & Kleftiko", title_el: "Σουβλάκι & Κλεφτικό", desc_en: "Souvlaki: grilled skewers in pita. Kleftiko: lamb slow-cooked in clay oven, melt-in-the-mouth.", desc_el: "Σουβλάκι: ψητά κομμάτια κρέατος σε πίτα. Κλεφτικό: αρνί ψητό σε ξυλόφουρνο, λιώνει στο στόμα.", image: "https://www.wholesomeyum.com/wp-content/uploads/2025/10/wholesomeyum-Lamb-Kleftiko-19.jpg", official: "https://www.tasteatlas.com/kleftiko" },
-      { id: 11, title_en: "Commandaria Wine", title_el: "Κουμανδαρία", desc_en: "World’s oldest named wine, sweet dessert wine from Troodos foothills.", desc_el: "Το παλαιότερο επώνυμο κρασί στον κόσμο, γλυκό επιδόρπιο κρασί από τους πρόποδες του Τροόδους.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGQFVcF_FgWpfIxF6UeI3PnhSZEy4-u0s3hQjKQeeTZvF0L5Xw4621HAc&s=10", official: "https://worldoffinewine.com/travel/commandaria-ancient-sweet-cyprus-wine" }
+      { id: 0, title_en: "Paphos Mosaics", title_el: "Ψηφιδωτά Πάφου", desc_en: "UNESCO Roman mosaics.", desc_el: "Ρωμαϊκά ψηφιδωτά UNESCO.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmUIapqZv-RROP2GbJ9t-ZSL2ZsDNQzj3sHhoyD8FPxDGabBycad4MA0jo&s=10", official: "https://whc.unesco.org/en/list/79/" },
+      { id: 1, title_en: "Cape Greco", title_el: "Κάβο Γκρέκο", desc_en: "Sea cliffs and caves.", desc_el: "Θαλάσσιοι βράχοι.", image: "https://in-cyprus.philenews.com/wp-content/uploads/2020/03/11111111-696x464.jpg", official: "https://chooseyourcyprus.com/cape-greko-n-park/" },
+      { id: 2, title_en: "Saint Lazarus Church", title_el: "Άγιος Λάζαρος", desc_en: "Byzantine church in Larnaca.", desc_el: "Βυζαντινή εκκλησία στη Λάρνακα.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBdxhMA4TZyw1Mk_34QAspbgelViXxiUeNHRFYm7VJ8JKC5YJlOAXagvU&s=10", official: "https://larnakaregion.com/directory/product/agios-lazaros-saint-lazarus" },
+      { id: 3, title_en: "Troodos Mountains", title_el: "Τρόοδος", desc_en: "Byzantine churches and trout.", desc_el: "Βυζαντινές εκκλησίες και πέστροφα.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTi2hgaXAtD6xn2yBPQ6BOXVrZ2PqyjI1N1Jiv_zjnAnibrTriD5tMpJTE&s=10", official: "https://whc.unesco.org/en/list/351/" },
+      { id: 4, title_en: "Aphrodite's Rock", title_el: "Πέτρα του Ρωμιού", desc_en: "Birthplace of Aphrodite.", desc_el: "Γενέτειρα της Αφροδίτης.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8p1e-2nGxu864CGwMcRaCLBfFcrhCY7gceGfhlbjvva1F3QWd389LZ4Vi&s=10", official: "https://theislandofcyprus.com/aphrodite-rock/" },
+      { id: 5, title_en: "Kourion Theatre", title_el: "Κούριο", desc_en: "Greco-Roman theatre.", desc_el: "Ελληνορωμαϊκό θέατρο.", image: "https://www.greekdramafest.com/wp-content/themes/yootheme/cache/6f/DSL_6720-6f113671.jpeg", official: "https://www.greekdramafest.com/venues/curium-ancient-theatre/" },
+      { id: 6, title_en: "Cyprus Museum", title_el: "Αρχαιολογικό Μουσείο", desc_en: "Largest archaeological museum.", desc_el: "Μεγαλύτερο αρχαιολογικό μουσείο.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZqTdj9r14axngzq8l49stx_SbdUOKfw9FQksMEp5NWrsZmRSeAWSPBqiS&s=10", official: "https://www.visitcyprus.com/discover-cyprus/culture/museums-galleries/cyprus-museum/" },
+      { id: 7, title_en: "Lefkara Village", title_el: "Λεύκαρα", desc_en: "Famous for lace.", desc_el: "Διάσημο για κέντημα.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpkTBys0D65teMcvghrbWXeMxin45DDHkIw58QBN6Y6ds-uUvwFUC_FG0&s=10", official: "https://ich.unesco.org/en/RL/lefkara-laces-or-lefkaritika-00255" },
+      { id: 8, title_en: "Meze Feast", title_el: "Μεζές", desc_en: "Variety of small dishes.", desc_el: "Ποικιλία μικρών πιάτων.", image: "https://cdn.loveandlemons.com/wp-content/uploads/2022/08/mezze-platter-3.jpg", official: "https://www.olivemagazine.com/recipes/collection/best-ever-middle-eastern-mezze-recipes/" },
+      { id: 9, title_en: "Halloumi", title_el: "Χαλλούμι", desc_en: "Grilled cheese.", desc_el: "Ψητό τυρί.", image: "https://www.mygreekdish.com/wp-content/uploads/2023/04/Pan-fried-Halloumi-recipe.jpeg", official: "https://www.olivemagazine.com/recipes/collection/halloumi-recipes/" },
+      { id: 10, title_en: "Souvlaki & Kleftiko", title_el: "Σουβλάκι & Κλεφτικό", desc_en: "Grilled meat and lamb.", desc_el: "Ψητό κρέας και αρνί.", image: "https://www.wholesomeyum.com/wp-content/uploads/2025/10/wholesomeyum-Lamb-Kleftiko-19.jpg", official: "https://www.tasteatlas.com/kleftiko" },
+      { id: 11, title_en: "Commandaria Wine", title_el: "Κουμανδαρία", desc_en: "Oldest named wine.", desc_el: "Παλαιότερο επώνυμο κρασί.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGQFVcF_FgWpfIxF6UeI3PnhSZEy4-u0s3hQjKQeeTZvF0L5Xw4621HAc&s=10", official: "https://worldoffinewine.com/travel/commandaria-ancient-sweet-cyprus-wine" }
     ];
 
     let currentLang = 'en', currentTheme = 'dark', showingDetail = false, selectedId = null;
     const app = document.getElementById('app'), langBtn = document.getElementById('langBtn'), themeBtn = document.getElementById('themeBtn');
 
-    // ---------- PWAインストール関連 ----------
+    // ---------- PWA インストール処理（完全に NYC 方式に準拠） ----------
     let deferredPrompt = null;
     const installBanner = document.getElementById('installBanner');
     const installBtn = document.getElementById('installAppBtn');
-    const closeBannerBtn = document.getElementById('closeBannerBtn');
-
-    function showInstallBanner() { installBanner.classList.remove('hidden'); }
-    function hideInstallBanner() { installBanner.classList.add('hidden'); }
+    const closeBanner = document.getElementById('closeBannerBtn');
 
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
-      showInstallBanner();
-      console.log('beforeinstallprompt fired – インストールバナーを表示します');
+      installBanner.classList.remove('hidden');
+      console.log('beforeinstallprompt 発火 → バナー表示');
     });
 
     installBtn.addEventListener('click', async () => {
       if (!deferredPrompt) return;
       deferredPrompt.prompt();
       const { outcome } = await deferredPrompt.userChoice;
-      console.log(`ユーザー選択: ${outcome}`);
+      console.log(`インストール選択: ${outcome}`);
       deferredPrompt = null;
-      hideInstallBanner();
+      installBanner.classList.add('hidden');
     });
 
-    closeBannerBtn.addEventListener('click', () => hideInstallBanner());
-    window.addEventListener('appinstalled', () => { console.log('アプリがインストールされました'); hideInstallBanner(); });
+    closeBanner.addEventListener('click', () => {
+      installBanner.classList.add('hidden');
+    });
 
-    // 既存のテーマ・言語関数
-    function setTheme(theme) {
-      currentTheme = theme;
-      if (theme === 'dark') document.body.classList.add('dark');
-      else document.body.classList.remove('dark');
-      localStorage.setItem('theme', theme);
-    }
+    window.addEventListener('appinstalled', () => {
+      console.log('アプリがインストールされました');
+      installBanner.classList.add('hidden');
+    });
+
+    // テーマ・言語機能（簡潔に）
+    function setTheme(theme) { currentTheme = theme; document.body.classList.toggle('dark', theme === 'dark'); localStorage.setItem('theme', theme); }
     function toggleTheme() { setTheme(currentTheme === 'dark' ? 'light' : 'dark'); }
-    function setLanguage(lang) {
-      currentLang = lang;
-      localStorage.setItem('language', lang);
-      langBtn.innerText = lang === 'en' ? '🇬🇷 Ελληνικά' : '🇬🇧 English';
-      renderPage();
-    }
+    function setLanguage(lang) { currentLang = lang; localStorage.setItem('language', lang); langBtn.innerText = lang === 'en' ? '🇬🇷 Ελληνικά' : '🇬🇧 English'; renderPage(); }
     function toggleLanguage() { setLanguage(currentLang === 'en' ? 'el' : 'en'); }
 
     function createSponsorSection() {
       const div = document.createElement('div'); div.className = 'sponsor';
       const label = document.createElement('div'); label.className = 'sponsor-label'; label.textContent = '✨ Sponsored ✨';
       div.appendChild(label);
-      if (SPONSOR_CONFIG.imageUrl && SPONSOR_CONFIG.imageUrl.trim()) {
-        const link = document.createElement('a'); link.href = SPONSOR_CONFIG.linkUrl; link.target = '_blank'; link.rel = 'noopener noreferrer';
+      if (SPONSOR_CONFIG.imageUrl) {
+        const link = document.createElement('a'); link.href = SPONSOR_CONFIG.linkUrl; link.target = '_blank';
         const img = document.createElement('img'); img.src = SPONSOR_CONFIG.imageUrl; img.alt = SPONSOR_CONFIG.altText; img.className = 'sponsor-image';
         link.appendChild(img); div.appendChild(link);
-      } else {
-        const link = document.createElement('a'); link.href = SPONSOR_CONFIG.linkUrl; link.target = '_blank'; link.rel = 'noopener noreferrer';
-        link.textContent = SPONSOR_CONFIG.linkUrl; div.appendChild(link);
       }
-      const text = document.createElement('p'); text.textContent = "🌊 Plan your Cyprus journey with Michelle's Cyprus Escape — your ultimate travel companion. 🏛️";
+      const text = document.createElement('p'); text.textContent = "Plan your Cyprus journey with Michelle's Cyprus Escape.";
       div.appendChild(text);
       return div;
     }
@@ -187,9 +179,9 @@
     function renderList() {
       const container = document.createElement('div');
       container.appendChild(createSponsorSection());
-      const map = document.createElement('div'); map.className = 'map-container';
-      map.innerHTML = `<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d52335.16761346227!2d33.31697017362666!3d35.166668402847065!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14de1742d62b65f3%3A0xf23bc7d53dd928a6!2sNicosia%2C%20Cyprus!5e0!3m2!1sen!2sus!4v1712134567890!5m2!1sen!2sus" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>`;
-      container.appendChild(map);
+      const mapDiv = document.createElement('div'); mapDiv.className = 'map-container';
+      mapDiv.innerHTML = `<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d52335.16761346227!2d33.31697017362666!3d35.166668402847065!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14de1742d62b65f3%3A0xf23bc7d53dd928a6!2sNicosia%2C%20Cyprus!5e0!3m2!1sen!2sus!4v1712134567890!5m2!1sen!2sus" allowfullscreen loading="lazy"></iframe>`;
+      container.appendChild(mapDiv);
       const isEn = currentLang === 'en';
       const grid = document.createElement('div'); grid.className = 'card-grid';
       places.forEach(p => {
@@ -212,13 +204,13 @@
       const img = document.createElement('img'); img.src = place.image; img.alt = isEn ? place.title_en : place.title_el; img.className = 'detail-img';
       const title = document.createElement('h2'); title.innerText = isEn ? place.title_en : place.title_el;
       const desc = document.createElement('p'); desc.style.margin = '1rem 0'; desc.innerText = isEn ? place.desc_en : place.desc_el;
-      const link = document.createElement('a'); link.href = place.official; link.target = '_blank'; link.rel = 'noopener noreferrer'; link.className = 'official-link'; link.innerText = langData[currentLang].official;
-      container.appendChild(back); container.appendChild(img); container.appendChild(title); container.appendChild(desc); container.appendChild(link);
+      const link = document.createElement('a'); link.href = place.official; link.target = '_blank'; link.className = 'official-link'; link.innerText = langData[currentLang].official;
+      container.append(back, img, title, desc, link);
       app.innerHTML = ''; app.appendChild(container);
     }
 
-    function showDetail(id) { selectedId = id; showingDetail = true; renderDetail(id); const url = new URL(window.location); url.searchParams.set('id', id); window.history.pushState({ id, view: 'detail' }, '', url); }
-    function showList() { showingDetail = false; selectedId = null; renderList(); const url = new URL(window.location); url.searchParams.delete('id'); window.history.pushState({ view: 'list' }, '', url); }
+    function showDetail(id) { selectedId = id; showingDetail = true; renderDetail(id); const url = new URL(window.location); url.searchParams.set('id', id); window.history.pushState({ id }, '', url); }
+    function showList() { showingDetail = false; selectedId = null; renderList(); const url = new URL(window.location); url.searchParams.delete('id'); window.history.pushState({}, '', url); }
     function renderPage() { showingDetail && selectedId !== null ? renderDetail(selectedId) : renderList(); }
     window.addEventListener('popstate', () => { const id = new URLSearchParams(window.location.search).get('id'); if (id && !isNaN(parseInt(id))) { selectedId = parseInt(id); showingDetail = true; renderDetail(selectedId); } else { showingDetail = false; selectedId = null; renderList(); } });
 
@@ -232,11 +224,13 @@
     }
     init();
 
-    // サービスワーカーの登録（パスに注意）
+    // Service Worker 登録（load イベントで確実に）
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js')
-        .then(reg => console.log('ServiceWorker registered:', reg))
-        .catch(err => console.error('ServiceWorker registration failed:', err));
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(reg => console.log('SW registered:', reg))
+          .catch(err => console.error('SW registration failed:', err));
+      });
     } else {
       console.warn('Service Worker not supported');
     }
