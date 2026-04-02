@@ -8,7 +8,6 @@
   <meta name="theme-color" content="#1e3a5f">
   <meta name="description" content="Discover the best places, activities and food in Cyprus">
   <style>
-    /* 既存のスタイル（変更なし） */
     * {
       margin: 0;
       padding: 0;
@@ -31,6 +30,8 @@
       --btn-text: white;
       --sponsor-bg: #ffffffcc;
       --sponsor-text: #5a6e4a;
+      --install-bg: #e3f2fd;
+      --install-text: #0b5e8a;
     }
 
     body.dark {
@@ -48,6 +49,8 @@
       --btn-text: #1e2a2e;
       --sponsor-bg: #2d3e40cc;
       --sponsor-text: #cbd5c4;
+      --install-bg: #2c4a5e;
+      --install-text: #e9f5f0;
     }
 
     body {
@@ -100,6 +103,43 @@
       background: var(--accent);
       color: white;
       border-color: var(--accent);
+    }
+
+    /* インストールバナー */
+    .install-banner {
+      background: var(--install-bg);
+      color: var(--install-text);
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+    .install-banner.hidden {
+      display: none;
+    }
+    .install-banner p {
+      margin: 0;
+    }
+    .install-btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.4rem 1rem;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    .close-banner {
+      background: transparent;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: inherit;
+      padding: 0 0.5rem;
     }
 
     main {
@@ -283,6 +323,15 @@
     </div>
   </header>
 
+  <!-- インストール案内バナー（初期非表示） -->
+  <div id="installBanner" class="install-banner hidden">
+    <p>📱 アプリとしてインストールすると、より快適にご利用いただけます。</p>
+    <div>
+      <button id="installAppBtn" class="install-btn">インストール</button>
+      <button id="closeBannerBtn" class="close-banner">✕</button>
+    </div>
+  </div>
+
   <main id="app">
     <!-- 動的にコンテンツが挿入される -->
   </main>
@@ -293,7 +342,7 @@
   </footer>
 
   <script>
-    // ---------- スポンサー情報の設定 ----------
+    // ---------- スポンサー情報 ----------
     const SPONSOR_CONFIG = {
       imageUrl: "https://etc-corporate.org/uploads/2019/01/Cyprus-website.png",
       linkUrl: "https://www.visitcyprus.com/",
@@ -312,7 +361,7 @@
       }
     };
 
-    // 12個のスポット・料理・体験（画像URLと公式URLはご指定のまま）
+    // 12個のスポット
     const places = [
       { id: 0, title_en: "Paphos Mosaics", title_el: "Ψηφιδωτά Πάφου", desc_en: "Stunning Roman floor mosaics in the House of Dionysus, UNESCO World Heritage.", desc_el: "Εκπληκτικά ρωμαϊκά ψηφιδωτά στην Οικία του Διονύσου, Μνημείο Παγκόσμιας Κληρονομιάς UNESCO.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmUIapqZv-RROP2GbJ9t-ZSL2ZsDNQzj3sHhoyD8FPxDGabBycad4MA0jo&s=10", official: "https://whc.unesco.org/en/list/79/" },
       { id: 1, title_en: "Cape Greco National Park", title_el: "Εθνικό Πάρκο Κάβο Γκρέκο", desc_en: "Dramatic sea cliffs, crystal waters and natural sea caves near Ayia Napa.", desc_el: "Εντυπωσιακοί θαλάσσιοι βράχοι, κρυστάλλινα νερά και θαλάσσιες σπηλιές κοντά στην Αγία Νάπα.", image: "https://in-cyprus.philenews.com/wp-content/uploads/2020/03/11111111-696x464.jpg", official: "https://chooseyourcyprus.com/cape-greko-n-park/" },
@@ -337,6 +386,55 @@
     const langBtn = document.getElementById('langBtn');
     const themeBtn = document.getElementById('themeBtn');
 
+    // ---------- PWAインストール関連 ----------
+    let deferredPrompt = null;
+    const installBanner = document.getElementById('installBanner');
+    const installBtn = document.getElementById('installAppBtn');
+    const closeBannerBtn = document.getElementById('closeBannerBtn');
+
+    function showInstallBanner() {
+      installBanner.classList.remove('hidden');
+    }
+    function hideInstallBanner() {
+      installBanner.classList.add('hidden');
+    }
+
+    // beforeinstallprompt イベントを検知
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      // バナーを表示
+      showInstallBanner();
+    });
+
+    // インストールボタンクリック
+    installBtn.addEventListener('click', async () => {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        console.log('ユーザーがインストールを承諾しました');
+      } else {
+        console.log('ユーザーがインストールを拒否しました');
+      }
+      deferredPrompt = null;
+      hideInstallBanner();
+    });
+
+    // 閉じるボタン
+    closeBannerBtn.addEventListener('click', () => {
+      hideInstallBanner();
+      // セッション中は再度表示しない（必要ならlocalStorageに記録することも可能）
+    });
+
+    // すでにインストールされている場合、バナーは表示しない（オプション）
+    window.addEventListener('appinstalled', () => {
+      console.log('アプリがインストールされました');
+      deferredPrompt = null;
+      hideInstallBanner();
+    });
+
+    // テーマ切り替え等の既存関数（省略せず完全に記述）
     function setTheme(theme) {
       currentTheme = theme;
       if (theme === 'dark') {
@@ -536,7 +634,7 @@
 
     init();
 
-    // ---------- サービスワーカーの登録 ----------
+    // サービスワーカー登録
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js')
         .then(registration => {
