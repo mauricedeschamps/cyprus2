@@ -14,32 +14,14 @@ self.addEventListener('install', event => {
         console.log('Opened cache');
         return cache.addAll(urlsToCache);
       })
+      .catch(err => console.error('Cache addAll failed:', err))
   );
 });
 
 self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request)
-      .then(response => {
-        // キャッシュにあればそれを返す
-        if (response) {
-          return response;
-        }
-        // なければネットワークへ
-        return fetch(event.request).then(
-          networkResponse => {
-            // 有効なレスポンスはキャッシュに追加（オプション）
-            if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
-              const responseToCache = networkResponse.clone();
-              caches.open(CACHE_NAME)
-                .then(cache => {
-                  cache.put(event.request, responseToCache);
-                });
-            }
-            return networkResponse;
-          }
-        );
-      })
+      .then(response => response || fetch(event.request))
   );
 });
 
@@ -49,7 +31,7 @@ self.addEventListener('activate', event => {
     caches.keys().then(cacheNames => {
       return Promise.all(
         cacheNames.map(cacheName => {
-          if (cacheWhitelist.indexOf(cacheName) === -1) {
+          if (!cacheWhitelist.includes(cacheName)) {
             return caches.delete(cacheName);
           }
         })
