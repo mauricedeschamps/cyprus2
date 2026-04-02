@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Cyprus Travel Guide</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1e3a5f">
+  <meta name="description" content="Discover the best places, activities and food in Cyprus">
+  <style>
+    /* 既存のスタイル（変更なし） */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+
+    :root {
+      --bg-body: #fef7e8;
+      --bg-card: #ffffff;
+      --text-primary: #2c3e2f;
+      --text-secondary: #5a6e4a;
+      --accent: #1e88e5;
+      --accent-dark: #0b5e8a;
+      --border: #e0d6c2;
+      --header-bg: #ffffffcc;
+      --footer-bg: #f3efe4;
+      --shadow: rgba(0, 0, 0, 0.05);
+      --btn-bg: #1e88e5;
+      --btn-text: white;
+      --sponsor-bg: #ffffffcc;
+      --sponsor-text: #5a6e4a;
+    }
+
+    body.dark {
+      --bg-body: #1e2a2e;
+      --bg-card: #2d3e40;
+      --text-primary: #e9f5f0;
+      --text-secondary: #cbd5c4;
+      --accent: #4aa3df;
+      --accent-dark: #2c7cb6;
+      --border: #3e5a5c;
+      --header-bg: #1e2a2ecc;
+      --footer-bg: #1e2a2e;
+      --shadow: rgba(0, 0, 0, 0.2);
+      --btn-bg: #4aa3df;
+      --btn-text: #1e2a2e;
+      --sponsor-bg: #2d3e40cc;
+      --sponsor-text: #cbd5c4;
+    }
+
+    body {
+      background-color: var(--bg-body);
+      color: var(--text-primary);
+      font-family: system-ui, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+      line-height: 1.5;
+      padding: 0;
+      margin: 0;
+    }
+
+    header {
+      background: var(--header-bg);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo h1 {
+      font-size: 1.6rem;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, var(--accent), #f4a261);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .controls {
+      display: flex;
+      gap: 0.8rem;
+    }
+
+    button {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 0.5rem 1rem;
+      border-radius: 40px;
+      font-weight: 500;
+      cursor: pointer;
+      color: var(--text-primary);
+      transition: 0.1s;
+    }
+
+    button:hover {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    main {
+      max-width: 1300px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .map-container {
+      margin: 1.5rem 0 2rem 0;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px var(--shadow);
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+    }
+
+    .map-container iframe {
+      width: 100%;
+      height: 350px;
+      border: 0;
+      display: block;
+    }
+
+    .sponsor {
+      background: var(--sponsor-bg);
+      backdrop-filter: blur(4px);
+      border-radius: 24px;
+      padding: 1rem;
+      margin: 1.5rem 0;
+      text-align: center;
+      border: 1px solid var(--border);
+      color: var(--sponsor-text);
+    }
+
+    .sponsor a {
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .sponsor-image {
+      max-width: 100%;
+      height: auto;
+      max-height: 100px;
+      border-radius: 12px;
+      margin-bottom: 0.5rem;
+    }
+
+    .sponsor .sponsor-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      opacity: 0.7;
+      margin-bottom: 0.5rem;
+    }
+
+    .sponsor p {
+      margin: 0;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px var(--shadow);
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: 1px solid var(--border);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px var(--shadow);
+    }
+
+    .card-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .card-content {
+      padding: 1.2rem;
+    }
+
+    .card-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .detail-container {
+      max-width: 900px;
+      margin: 2rem auto;
+      background: var(--bg-card);
+      border-radius: 32px;
+      padding: 2rem;
+      border: 1px solid var(--border);
+    }
+
+    .detail-img {
+      width: 100%;
+      max-height: 450px;
+      object-fit: cover;
+      border-radius: 24px;
+      margin-bottom: 1.5rem;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      background: var(--accent);
+      color: white;
+      border: none;
+    }
+
+    .official-link {
+      display: inline-block;
+      margin-top: 1rem;
+      background: var(--accent-dark);
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border-radius: 40px;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .official-link:hover {
+      opacity: 0.9;
+    }
+
+    footer {
+      background: var(--footer-bg);
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 2rem 1rem;
+      margin-top: 3rem;
+      font-size: 0.9rem;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    @media (max-width: 680px) {
+      header {
+        flex-direction: column;
+        text-align: center;
+      }
+      .card-grid {
+        gap: 1.2rem;
+      }
+      .map-container iframe {
+        height: 250px;
+      }
+      .sponsor-image {
+        max-height: 80px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <h1>🇨🇾 Michelle's<br>Cyprus Escape</h1>
+    </div>
+    <div class="controls">
+      <button id="langBtn" aria-label="Switch language">🇬🇷 Ελληνικά</button>
+      <button id="themeBtn" aria-label="Switch theme">🌙 Dark / ☀️ Light</button>
+    </div>
+  </header>
+
+  <main id="app">
+    <!-- 動的にコンテンツが挿入される -->
+  </main>
+
+  <footer>
+    Contact us<br>
+    <a href="mailto:mementomorikatsu@gmail.com">mementomorikatsu@gmail.com</a>
+  </footer>
+
+  <script>
+    // ---------- スポンサー情報の設定 ----------
+    const SPONSOR_CONFIG = {
+      imageUrl: "https://etc-corporate.org/uploads/2019/01/Cyprus-website.png",
+      linkUrl: "https://www.visitcyprus.com/",
+      altText: "Discover Cyprus"
+    };
+
+    // ---------- 多言語データ ----------
+    const langData = {
+      en: {
+        back: "← Back to list",
+        official: "Official Website",
+      },
+      el: {
+        back: "← Πίσω στη λίστα",
+        official: "Επίσημη ιστοσελίδα",
+      }
+    };
+
+    // 12個のスポット・料理・体験（画像URLと公式URLはご指定のまま）
+    const places = [
+      { id: 0, title_en: "Paphos Mosaics", title_el: "Ψηφιδωτά Πάφου", desc_en: "Stunning Roman floor mosaics in the House of Dionysus, UNESCO World Heritage.", desc_el: "Εκπληκτικά ρωμαϊκά ψηφιδωτά στην Οικία του Διονύσου, Μνημείο Παγκόσμιας Κληρονομιάς UNESCO.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmUIapqZv-RROP2GbJ9t-ZSL2ZsDNQzj3sHhoyD8FPxDGabBycad4MA0jo&s=10", official: "https://whc.unesco.org/en/list/79/" },
+      { id: 1, title_en: "Cape Greco National Park", title_el: "Εθνικό Πάρκο Κάβο Γκρέκο", desc_en: "Dramatic sea cliffs, crystal waters and natural sea caves near Ayia Napa.", desc_el: "Εντυπωσιακοί θαλάσσιοι βράχοι, κρυστάλλινα νερά και θαλάσσιες σπηλιές κοντά στην Αγία Νάπα.", image: "https://in-cyprus.philenews.com/wp-content/uploads/2020/03/11111111-696x464.jpg", official: "https://chooseyourcyprus.com/cape-greko-n-park/" },
+      { id: 2, title_en: "Church of Saint Lazarus", title_el: "Ιερός Ναός Αγίου Λαζάρου", desc_en: "Byzantine church in Larnaca where Lazarus was buried, beautiful iconostasis.", desc_el: "Βυζαντινή εκκλησία στη Λάρνακα όπου τάφηκε ο Λάζαρος, όμορφο τέμπλο.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBdxhMA4TZyw1Mk_34QAspbgelViXxiUeNHRFYm7VJ8JKC5YJlOAXagvU&s=10", official: "https://larnakaregion.com/directory/product/agios-lazaros-saint-lazarus" },
+      { id: 3, title_en: "Troodos Mountains & Byzantine Churches", title_el: "Βουνά Τροόδους & Βυζαντινές Εκκλησίες", desc_en: "Painted churches, cool climate, and traditional villages with trout taverns.", desc_el: "Τοιχογραφημένες εκκλησίες, δροσερό κλίμα και παραδοσιακά χωριά με ταβέρνες πέστροφας.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTi2hgaXAtD6xn2yBPQ6BOXVrZ2PqyjI1N1Jiv_zjnAnibrTriD5tMpJTE&s=10", official: "https://whc.unesco.org/en/list/351/" },
+      { id: 4, title_en: "Aphrodite's Rock (Petra tou Romiou)", title_el: "Πέτρα του Ρωμιού", desc_en: "Mythical birthplace of Aphrodite, stunning sunset spot near Paphos.", desc_el: "Μυθική γενέτειρα της Αφροδίτης, εκπληκτικό σημείο ηλιοβασιλέματος κοντά στην Πάφο.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8p1e-2nGxu864CGwMcRaCLBfFcrhCY7gceGfhlbjvva1F3QWd389LZ4Vi&s=10", official: "https://theislandofcyprus.com/aphrodite-rock/" },
+      { id: 5, title_en: "Kourion Ancient Theatre", title_el: "Αρχαίο Θέατρο Κουρίου", desc_en: "Greco-Roman theater overlooking the Mediterranean, well-preserved mosaics.", desc_el: "Ελληνορωμαϊκό θέατρο με θέα στη Μεσόγειο, καλοδιατηρημένα ψηφιδωτά.", image: "https://www.greekdramafest.com/wp-content/themes/yootheme/cache/6f/DSL_6720-6f113671.jpeg", official: "https://www.greekdramafest.com/venues/curium-ancient-theatre/ " },
+      { id: 6, title_en: "Cyprus Archaeological Museum", title_el: "Αρχαιολογικό Μουσείο Κύπρου", desc_en: "Largest archaeological museum in Nicosia, treasures from Neolithic to Roman.", desc_el: "Το μεγαλύτερο αρχαιολογικό μουσείο στη Λευκωσία, θησαυροί από τη νεολιθική έως τη ρωμαϊκή εποχή.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZqTdj9r14axngzq8l49stx_SbdUOKfw9FQksMEp5NWrsZmRSeAWSPBqiS&s=10", official: "https://www.visitcyprus.com/discover-cyprus/culture/museums-galleries/cyprus-museum/ " },
+      { id: 7, title_en: "Lefkara Village & Lace", title_el: "Λεύκαρα & κέντημα", desc_en: "Famous for silver filigree and handmade Lefkaritiko lace, traditional architecture.", desc_el: "Διάσημο για ασημένια φιλιγκράν και χειροποίητο Λευκαρίτικο κέντημα, παραδοσιακή αρχιτεκτονική.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpkTBys0D65teMcvghrbWXeMxin45DDHkIw58QBN6Y6ds-uUvwFUC_FG0&s=10", official: "https://ich.unesco.org/en/RL/lefkara-laces-or-lefkaritika-00255" },
+      { id: 8, title_en: "Meze Feast", title_el: "Κυπριακό Μεζέ", desc_en: "A parade of small dishes: dips, grilled halloumi, fresh seafood, and slow-cooked meat.", desc_el: "Μια παρέλαση μικρών πιάτων: ντιπ, ψητό χαλλούμι, φρέσκα θαλασσινά και κρέας με αργό μαγείρεμα.", image: "https://cdn.loveandlemons.com/wp-content/uploads/2022/08/mezze-platter-3.jpg", official: "https://www.olivemagazine.com/recipes/collection/best-ever-middle-eastern-mezze-recipes/" },
+      { id: 9, title_en: "Halloumi Cheese", title_el: "Χαλλούμι", desc_en: "Cypriot semi-hard cheese, perfect grilled or fried, unique taste.", desc_el: "Κυπριακό ημίσκληρο τυρί, ιδανικό για ψήσιμο ή τηγάνισμα, μοναδική γεύση.", image: "https://www.mygreekdish.com/wp-content/uploads/2023/04/Pan-fried-Halloumi-recipe.jpeg", official: "https://www.olivemagazine.com/recipes/collection/halloumi-recipes/" },
+      { id: 10, title_en: "Souvlaki & Kleftiko", title_el: "Σουβλάκι & Κλεφτικό", desc_en: "Souvlaki: grilled skewers in pita. Kleftiko: lamb slow-cooked in clay oven, melt-in-the-mouth.", desc_el: "Σουβλάκι: ψητά κομμάτια κρέατος σε πίτα. Κλεφτικό: αρνί ψητό σε ξυλόφουρνο, λιώνει στο στόμα.", image: "https://www.wholesomeyum.com/wp-content/uploads/2025/10/wholesomeyum-Lamb-Kleftiko-19.jpg", official: "https://www.tasteatlas.com/kleftiko" },
+      { id: 11, title_en: "Commandaria Wine", title_el: "Κουμανδαρία", desc_en: "World’s oldest named wine, sweet dessert wine from Troodos foothills.", desc_el: "Το παλαιότερο επώνυμο κρασί στον κόσμο, γλυκό επιδόρπιο κρασί από τους πρόποδες του Τροόδους.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGQFVcF_FgWpfIxF6UeI3PnhSZEy4-u0s3hQjKQeeTZvF0L5Xw4621HAc&s=10", official: "https://worldoffinewine.com/travel/commandaria-ancient-sweet-cyprus-wine" }
+    ];
+
+    let currentLang = 'en';
+    let currentTheme = 'dark';
+    let showingDetail = false;
+    let selectedId = null;
+
+    const app = document.getElementById('app');
+    const langBtn = document.getElementById('langBtn');
+    const themeBtn = document.getElementById('themeBtn');
+
+    function setTheme(theme) {
+      currentTheme = theme;
+      if (theme === 'dark') {
+        document.body.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      } else {
+        document.body.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      }
+    }
+
+    function toggleTheme() {
+      setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+    }
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      localStorage.setItem('language', lang);
+      langBtn.innerText = lang === 'en' ? '🇬🇷 Ελληνικά' : '🇬🇧 English';
+      renderPage();
+    }
+
+    function toggleLanguage() {
+      setLanguage(currentLang === 'en' ? 'el' : 'en');
+    }
+
+    function createSponsorSection() {
+      const sponsorDiv = document.createElement('div');
+      sponsorDiv.className = 'sponsor';
+      const label = document.createElement('div');
+      label.className = 'sponsor-label';
+      label.textContent = '✨ Sponsored ✨';
+      sponsorDiv.appendChild(label);
+      if (SPONSOR_CONFIG.imageUrl && SPONSOR_CONFIG.imageUrl.trim() !== '') {
+        const link = document.createElement('a');
+        link.href = SPONSOR_CONFIG.linkUrl;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        const img = document.createElement('img');
+        img.src = SPONSOR_CONFIG.imageUrl;
+        img.alt = SPONSOR_CONFIG.altText;
+        img.className = 'sponsor-image';
+        link.appendChild(img);
+        sponsorDiv.appendChild(link);
+      } else {
+        const link = document.createElement('a');
+        link.href = SPONSOR_CONFIG.linkUrl;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.textContent = SPONSOR_CONFIG.linkUrl;
+        sponsorDiv.appendChild(link);
+      }
+      const textP = document.createElement('p');
+      textP.textContent = "🌊 Plan your Cyprus journey with Michelle's Cyprus Escape — your ultimate travel companion. 🏛️";
+      sponsorDiv.appendChild(textP);
+      return sponsorDiv;
+    }
+
+    function renderList() {
+      const container = document.createElement('div');
+      const topSponsor = createSponsorSection();
+      container.appendChild(topSponsor);
+      const mapDiv = document.createElement('div');
+      mapDiv.className = 'map-container';
+      mapDiv.innerHTML = `
+        <iframe 
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d52335.16761346227!2d33.31697017362666!3d35.166668402847065!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14de1742d62b65f3%3A0xf23bc7d53dd928a6!2sNicosia%2C%20Cyprus!5e0!3m2!1sen!2sus!4v1712134567890!5m2!1sen!2sus"
+          allowfullscreen="" 
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      `;
+      container.appendChild(mapDiv);
+      const isEn = currentLang === 'en';
+      const grid = document.createElement('div');
+      grid.className = 'card-grid';
+      places.forEach(place => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.addEventListener('click', () => showDetail(place.id));
+        const img = document.createElement('img');
+        img.src = place.image;
+        img.alt = isEn ? place.title_en : place.title_el;
+        img.className = 'card-img';
+        const contentDiv = document.createElement('div');
+        contentDiv.className = 'card-content';
+        const title = document.createElement('h3');
+        title.className = 'card-title';
+        title.innerText = isEn ? place.title_en : place.title_el;
+        contentDiv.appendChild(title);
+        card.appendChild(img);
+        card.appendChild(contentDiv);
+        grid.appendChild(card);
+      });
+      container.appendChild(grid);
+      const bottomSponsor = createSponsorSection();
+      container.appendChild(bottomSponsor);
+      app.innerHTML = '';
+      app.appendChild(container);
+    }
+
+    function renderDetail(id) {
+      const place = places.find(p => p.id === id);
+      if (!place) return;
+      const isEn = currentLang === 'en';
+      const container = document.createElement('div');
+      container.className = 'detail-container';
+      const backBtn = document.createElement('button');
+      backBtn.className = 'back-btn';
+      backBtn.innerText = langData[currentLang].back;
+      backBtn.addEventListener('click', () => history.back());
+      const img = document.createElement('img');
+      img.src = place.image;
+      img.alt = isEn ? place.title_en : place.title_el;
+      img.className = 'detail-img';
+      const title = document.createElement('h2');
+      title.innerText = isEn ? place.title_en : place.title_el;
+      const desc = document.createElement('p');
+      desc.style.margin = '1rem 0';
+      desc.innerText = isEn ? place.desc_en : place.desc_el;
+      const officialLink = document.createElement('a');
+      officialLink.href = place.official;
+      officialLink.target = '_blank';
+      officialLink.rel = 'noopener noreferrer';
+      officialLink.className = 'official-link';
+      officialLink.innerText = langData[currentLang].official;
+      container.appendChild(backBtn);
+      container.appendChild(img);
+      container.appendChild(title);
+      container.appendChild(desc);
+      container.appendChild(officialLink);
+      app.innerHTML = '';
+      app.appendChild(container);
+    }
+
+    function showDetail(id) {
+      selectedId = id;
+      showingDetail = true;
+      renderDetail(id);
+      const url = new URL(window.location);
+      url.searchParams.set('id', id);
+      window.history.pushState({ id, view: 'detail' }, '', url);
+    }
+
+    function showList() {
+      showingDetail = false;
+      selectedId = null;
+      renderList();
+      const url = new URL(window.location);
+      url.searchParams.delete('id');
+      window.history.pushState({ view: 'list' }, '', url);
+    }
+
+    function renderPage() {
+      if (showingDetail && selectedId !== null) {
+        renderDetail(selectedId);
+      } else {
+        renderList();
+      }
+    }
+
+    window.addEventListener('popstate', (event) => {
+      const params = new URLSearchParams(window.location.search);
+      const idParam = params.get('id');
+      if (idParam !== null && !isNaN(parseInt(idParam))) {
+        const id = parseInt(idParam);
+        selectedId = id;
+        showingDetail = true;
+        renderDetail(id);
+      } else {
+        showingDetail = false;
+        selectedId = null;
+        renderList();
+      }
+    });
+
+    function init() {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'light') setTheme('light');
+      else setTheme('dark');
+      const savedLang = localStorage.getItem('language');
+      if (savedLang === 'el') setLanguage('el');
+      else setLanguage('en');
+      langBtn.addEventListener('click', toggleLanguage);
+      themeBtn.addEventListener('click', toggleTheme);
+      const params = new URLSearchParams(window.location.search);
+      const idParam = params.get('id');
+      if (idParam !== null && !isNaN(parseInt(idParam))) {
+        selectedId = parseInt(idParam);
+        showingDetail = true;
+        renderDetail(selectedId);
+      } else {
+        showingDetail = false;
+        renderList();
+      }
+    }
+
+    init();
+
+    // ---------- サービスワーカーの登録 ----------
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js')
+        .then(registration => {
+          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        })
+        .catch(error => {
+          console.log('ServiceWorker registration failed: ', error);
+        });
+    }
+  </script>
+</body>
+</html>
